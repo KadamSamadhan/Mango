@@ -1,0 +1,29 @@
+﻿@model LoginRequestDto
+<form method="post">
+    <div class="container border p4">
+        <div class="row text-center">
+            <h1>Login</h1>
+        </div>
+        <div class="row" style="text-align:center; padding-left:20%; padding-right:20%">
+         @*    <div asp-validation-summary="All" class="text-bg-danger"></div> *@
+        </div>
+        <div style="text-align:center; padding-left:20%; padding-right:20%">
+        <div class="row">
+            
+                <div class="col-12 col-mid-6 offset-mid-3 pb-2">
+                    <input asp-for="UserName" class="form-control" placeholder="Username..." />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+                <div class="col-12 col-mid-6 offset-mid-3 pb-2">
+                    <input asp-for="Password" class="form-control" placeholder="Password..." />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="col-12 col-mid-6 offset-mid-3 pb-2">
+
+
+                    <button type="submit" class="form-control btn btn-success" value="Submit"> Login</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
