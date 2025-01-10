@@ -1,12 +1,14 @@
 
 using AutoMapper;
-using Mango.Services.ProductAPI.Data;
-using Mango.Services.ProductAPI.Extentions;
+using Mango.Services.ShoppingCartAPI.Data;
+using Mango.Services.ShoppingCartAPI.Extentions;
+using Mango.Services.ShoppingCartAPI.Service;
+using Mango.Services.ShoppingCartAPI.Service.IService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
-namespace Mango.Services.ProductAPI
+namespace Mango.Services.ShoppingCartAPI
 {
     public class Program
     {
@@ -22,6 +24,11 @@ namespace Mango.Services.ProductAPI
             IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
             builder.Services.AddSingleton(mapper);
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<ICouponService, CouponService>();
+            builder.Services.AddHttpClient("Product", u => u.BaseAddress = new Uri(builder.Configuration["ServiceUrls:ProductAPI"]));
+            builder.Services.AddHttpClient("Coupon", u => u.BaseAddress = new Uri(builder.Configuration["ServiceUrls:CouponAPI"]));
+
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -67,12 +74,12 @@ namespace Mango.Services.ProductAPI
 
 
             app.MapControllers();
-            ApplyMigration(app);            
+            ApplyMigration(app);
             app.Run();
 
 
         }
-        static void ApplyMigration(WebApplication  app)
+        static void ApplyMigration(WebApplication app)
         {
             using (var scope = app.Services.CreateScope())
             {

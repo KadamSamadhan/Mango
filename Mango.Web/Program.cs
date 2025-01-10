@@ -21,12 +21,14 @@ namespace Mango.Web
             StaticDetails.CouponAPIBase = builder.Configuration["ServiceUrls:CouponAPI"];
             StaticDetails.AuthAPIBase = builder.Configuration["ServiceUrls:AuthAPI"];
             StaticDetails.ProductAPIBase = builder.Configuration["ServiceUrls:ProductAPI"];
+            StaticDetails.ShopingCartAPIBase = builder.Configuration["ServiceUrls:ShopingCartAPI"];
 
             builder.Services.AddScoped<ITokenProvider, TokenProvider>();
             builder.Services.AddScoped<IBaseService, BaseService>();
             builder.Services.AddScoped<ICouponService, CouponService>();
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddScoped<IShopingCartService, ShopingCartService>();
 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
                 options =>

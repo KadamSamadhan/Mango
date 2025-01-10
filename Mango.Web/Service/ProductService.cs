@@ -43,13 +43,13 @@ namespace Mango.Web.Service
             throw new NotImplementedException();
         }
 
-        public async Task<ResponseDto?>  GetProductByIDAsync(int coupinId)
+        public async Task<ResponseDto?>  GetProductByIDAsync(int productId)
         {
            return await _baseService.SendAsync(new RequestDto()
             {
                 ApiType = StaticDetails.ApiType.GET,
-                Url = StaticDetails.ProductAPIBase + "/api/product/" + coupinId
-            });
+                Url = StaticDetails.ProductAPIBase + "/api/product/" + productId
+           });
         }
 
         public async Task<ResponseDto?>  UpdateProductAsync(ProductDto productDto)

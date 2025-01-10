@@ -102,7 +102,7 @@ namespace Mango.Services.ProductAPI.Controllers
             return _response;
         }
         [HttpDelete]
-        [Route("{coupinId:int}")]
+        [Route("{productId:int}")]
         [Authorize(Roles = "ADMIN")]
         public ResponseDto Delete(int productId)
         {
