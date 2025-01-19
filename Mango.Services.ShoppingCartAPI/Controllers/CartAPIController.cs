@@ -3,6 +3,7 @@ using Mango.Services.ShoppingCartAPI.Data;
 using Mango.Services.ShoppingCartAPI.Models;
 using Mango.Services.ShoppingCartAPI.Models.Dto;
 using Mango.Services.ShoppingCartAPI.Service.IService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ namespace Mango.Services.ShoppingCartAPI.Controllers
 {
     [Route("api/cart")]
     [ApiController]
+    //[Authorize]
     public class CartAPIController : ControllerBase
     {
         private ResponseDto _response;
@@ -101,7 +103,7 @@ namespace Mango.Services.ShoppingCartAPI.Controllers
             return _response;
         }
 
-        [HttpGet("GetCart")]
+        [HttpGet("GetCart/{userId}")]
         public async Task<ResponseDto> GetCart(string userId)
         {
             try
@@ -130,6 +132,8 @@ namespace Mango.Services.ShoppingCartAPI.Controllers
 
                     }
                 }
+                _response.IsSuccess = true;
+                _response.Result = cart;
             }
             catch (Exception ex)
             {

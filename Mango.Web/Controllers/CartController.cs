@@ -26,7 +26,7 @@ namespace Mango.Web.Controllers
         {
             var userId =User.Claims.Where(u=>u.Type== JwtRegisteredClaimNames.Sub)?.FirstOrDefault()?.Value;
             ResponseDto? response= await _shopingCartService.GetCartByUserIdAsync(userId);
-            if (response == null & response.IsSuccess)
+            if (response != null & response.IsSuccess)
             {
 
                 CartDto cartDto = JsonConvert.DeserializeObject<CartDto>(Convert.ToString(response.Result));
@@ -34,6 +34,42 @@ namespace Mango.Web.Controllers
             }
             
             return new CartDto();
+        }
+
+        public async Task<IActionResult?> Remove(int cartDetailsId)
+        {
+            var userId = User.Claims.Where(u => u.Type == JwtRegisteredClaimNames.Sub)?.FirstOrDefault()?.Value;
+            ResponseDto? response = await _shopingCartService.RemoveFromCartAsync(cartDetailsId);
+            if (response != null & response.IsSuccess)
+            {
+                TempData["success"] = "Cart updated successfully";
+                return RedirectToAction(nameof(CartIndex));
+            }
+
+            return View();
+        }
+        public async Task<IActionResult?> ApplyCoupon(CartDto cartDto)
+        {
+            ResponseDto? response = await _shopingCartService.ApplyCouponAsync(cartDto);
+            if (response != null & response.IsSuccess)
+            {
+                TempData["success"] = "Cart updated successfully";
+                return RedirectToAction(nameof(CartIndex));
+            }
+
+            return View();
+        }
+        public async Task<IActionResult?> RemoveCoupon(CartDto cartDto)
+        {
+            cartDto.CartHeader.CouponCode = "";
+            ResponseDto? response = await _shopingCartService.ApplyCouponAsync(cartDto);
+            if (response != null & response.IsSuccess)
+            {
+                TempData["success"] = "Cart updated successfully";
+                return RedirectToAction(nameof(CartIndex));
+            }
+
+            return View();
         }
     }
 }
